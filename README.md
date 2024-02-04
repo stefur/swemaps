@@ -4,8 +4,9 @@ Swedens municipalities and regions in GeoJSON format for easy usage with Plotly.
   
 The GeoJSON files are created with `geopandas`, using the shape files published by [Statistics Sweden](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser/).
 
-**Municipalities and regions**
-![plot](ex1.png)![plot](ex2.png)
+Municipalities             |  Regions
+:-------------------------:|:-------------------------:
+![municipalities](ex1.png) | ![regions](ex2.png)
 
 ## Plotly example
 
