@@ -32,7 +32,7 @@ def get_path(map_type: str) -> Path:
         kommun: string
         geometry: binary
         -- schema metadata --
-        geo: '{"version":"1.0.0","primary_column":"geometry","columns":{"geometry' + 1465
+        geo: '{"version":"1.0.0","primary_column":"geometry","columns":{"geometry' + 1478
 
     You can filter the PyArrow table.
 
