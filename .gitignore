@@ -1,2 +1,4 @@
-scb-files
 .venv
+.ruff_cache
+__pycache__
+dist

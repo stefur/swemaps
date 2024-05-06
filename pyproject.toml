@@ -1,0 +1,31 @@
+[project]
+name = "swemaps"
+version = "0.1.0"
+description = "Sweden in GeoParquet for easy usage."
+authors = [
+    { name = "Stefan Furne", email = "stefan@furne.net" }
+]
+
+readme = "README.md"
+requires-python = ">= 3.11"
+
+[project.optional-dependencies]
+pyarrow-geojson = [
+    "pyarrow>=16.0.0",
+    "geomet>=1.1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/swemaps"]
