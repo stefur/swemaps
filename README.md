@@ -2,7 +2,7 @@
 
 Maps of Sweden in [GeoParquet](https://github.com/opengeospatial/geoparquet) for easy usage.  
 
-The parquets have been created from files published by [Statistics Sweden](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/) and [The Swedish Agency for Economic and Regional Growth](https://tillvaxtverket.se/tillvaxtverket/statistikochanalys/statistikomregionalutveckling/regionalaindelningar/faregioner.1799.html). Maps include counties, municipalities and FA regions. The original geometries have been transformed from SWEREF 99 TM to WGS 84 for better compatibility across different tools. The column names have also been somewhat sanitized (e.g. `KnKod` -> `kommun_kod`).
+The parquets have been created from files published by [Statistics Sweden](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/) and [The Swedish Agency for Economic and Regional Growth](https://tillvaxtverket.se/tillvaxtverket/statistikochanalys/statistikomregionalutveckling/regionalaindelningar/faregioner.1799.html). Maps include counties, municipalities and FA regions. The original geometries have been transformed from SWEREF 99 TM to WGS 84 for better out of the box compatibility with different tools. The column names have also been somewhat sanitized (e.g. `KnKod` -> `kommun_kod`).
 
 The package gets you the file path so that you can load it with your prefered tool, for example PyArrow or GeoPandas. An extra helper function is included to quickly convert a PyArrow table to GeoJSON.
 
