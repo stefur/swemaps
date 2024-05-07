@@ -2,12 +2,24 @@
 name = "swemaps"
 version = "0.1.0"
 description = "Sweden in GeoParquet for easy usage."
+license = "MIT"
+repository = "https://github.com/stefur/swemaps/"
+keywords = ["geoparquet", "maps", "geoarrow", "pyarrow", "geopandas", "sweden"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
 authors = [
     { name = "Stefan Furne", email = "stefan@furne.net" }
 ]
 
 readme = "README.md"
 requires-python = ">= 3.11"
+
+[project.urls]
+"Issue tracker" = "https://github.com/stefur/swemaps/issues"
 
 [project.optional-dependencies]
 pyarrow-geojson = [
