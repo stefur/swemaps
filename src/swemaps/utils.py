@@ -64,16 +64,20 @@ def get_path(map_type: str) -> Path:
         return path
 
 
-def pyarrow_to_geojson(table: "pyarrow.Table") -> dict:
+def pyarrow_to_geojson(
+    table: "pyarrow.Table", geometry_column: str | None = None
+) -> dict:
     """
     Converts a PyArrow table loaded from a GeoParquet to a GeoJSON structure.
-    This function will use the primary column as defined in the metadata.
-    Any other column will be treated as a property.
+    This function will use the defined primary column or a specific geometry column.
+    All other columns will be treated as a property.
 
     Parameters
     ----------
     table : Table
         A PyArrow table containing GeoParquet data.
+    geometry_column : str | None, default None
+        Name of a specific column containing geometry.
     """
     try:
         import pyarrow  # type: ignore[import-untyped]
@@ -91,6 +95,7 @@ def pyarrow_to_geojson(table: "pyarrow.Table") -> dict:
         assert version == "1.0.0", "The GeoParquet specification must be version 1.0.0."
 
         primary_column: str = table_metadata["primary_column"]
+        all_geometry_columns: list = list(table_metadata["columns"].keys())
 
     except (json.JSONDecodeError, KeyError) as err:
         err.add_note("Invalid metadata.")
@@ -98,9 +103,13 @@ def pyarrow_to_geojson(table: "pyarrow.Table") -> dict:
 
     features = []
 
+    geometry_column = geometry_column or primary_column
+
     for row in table.to_pylist():
-        properties: dict = {k: v for k, v in row.items() if k != primary_column}
-        geometry: dict = wkb.loads(row.get(primary_column, None))
+        properties: dict = {
+            k: v for k, v in row.items() if k not in all_geometry_columns
+        }
+        geometry: dict = wkb.loads(row.get(geometry_column, None))
         feature = {
             "type": "Feature",
             "properties": properties,
