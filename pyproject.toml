@@ -26,6 +26,9 @@ pyarrow-geojson = [
     "pyarrow>=16.0.0",
     "geomet>=1.1.0",
 ]
+ci = [
+    "pytest>=8.2.0",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -34,6 +37,11 @@ build-backend = "hatchling.build"
 [tool.rye]
 managed = true
 dev-dependencies = [
+    "pytest>=8.2.0",
+    "pyarrow>=16.0.0",
+    "geopandas>=0.14.4",
+    "geomet>=1.1.0",
+    "ipykernel>=6.29.4",
 ]
 
 [tool.hatch.metadata]
