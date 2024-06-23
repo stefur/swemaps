@@ -57,7 +57,11 @@ def get_path(map_type: str) -> Path:
     basemap_visible=False,
     )
     """
-    assert map_type in ("kommun", "lan", "fa"), "Invalid map type."
+    if map_type not in ("kommun", "lan", "fa"):
+        raise ValueError(
+            f"Invalid map type: {map_type}. Expected one of 'kommun', 'lan', 'fa'."
+        )
+
     with resources.as_file(
         resources.files(__package__).joinpath(f"data/{map_type}.parquet")
     ) as path:
@@ -92,7 +96,10 @@ def pyarrow_to_geojson(
     try:
         table_metadata: dict = json.loads(table.schema.metadata[b"geo"].decode())
         version: str = table_metadata["version"]
-        assert version == "1.0.0", "The GeoParquet specification must be version 1.0.0."
+        if version != "1.0.0":
+            raise ValueError(
+                f"Invalid version: {version}. The GeoParquet specification must be version 1.0.0."
+            )
 
         primary_column: str = table_metadata["primary_column"]
         all_geometry_columns: list = list(table_metadata["columns"].keys())
