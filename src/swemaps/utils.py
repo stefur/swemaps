@@ -32,7 +32,7 @@ def get_path(map_type: str) -> Path:
         kommun: string
         geometry: binary
         -- schema metadata --
-        geo: '{"version":"1.0.0","primary_column":"geometry","columns":{"geometry' + 1478
+        geo: '{"version":"1.1.0","primary_column":"geometry","columns":{"geometry' + 1631
 
     You can filter the PyArrow table.
 
@@ -96,9 +96,9 @@ def pyarrow_to_geojson(
     try:
         table_metadata: dict = json.loads(table.schema.metadata[b"geo"].decode())
         version: str = table_metadata["version"]
-        if version != "1.0.0":
+        if version != "1.1.0":
             raise ValueError(
-                f"Invalid version: {version}. The GeoParquet specification must be version 1.0.0."
+                f"Invalid version: {version}. The GeoParquet specification must be version 1.1.0."
             )
 
         primary_column: str = table_metadata["primary_column"]

@@ -17,6 +17,7 @@ Municipalities             |  Counties
 ### PyArrow example with Plotly
 
 ```python
+>>> import plotly.express as px
 >>> import pyarrow.parquet as pq
 >>> import swemaps
 
@@ -69,7 +70,7 @@ kommun_kod: string
 kommun: string
 geometry: binary
 -- schema metadata --
-geo: '{"version":"1.0.0","primary_column":"geometry","columns":{"geometry' + 1478
+geo: '{"version":"1.1.0","primary_column":"geometry","columns":{"geometry' + 1631
 
 # County code for Skåne is 12
 >>> kommuner = kommuner.filter(pc.starts_with(pc.field("kommun_kod"), "12"))
