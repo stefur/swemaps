@@ -2,9 +2,10 @@
 
 import geopandas as gpd  # type: ignore[import-untyped]
 import pyarrow.parquet as pq  # type: ignore[import-untyped]
-import swemaps
 from geopandas import GeoDataFrame
 from pyarrow import Table
+
+import swemaps
 
 # Map types along with expected shapes
 MAP_TYPES = {
