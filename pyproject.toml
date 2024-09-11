@@ -1,10 +1,10 @@
 [project]
 name = "swemaps"
 version = "0.1.2"
-description = "Sweden in GeoParquet for easy usage."
+description = "Maps of Sweden in GeoParquet for easy usage."
 license = "MIT"
 repository = "https://github.com/stefur/swemaps/"
-keywords = ["geoparquet", "maps", "geoarrow", "pyarrow", "geopandas", "sweden"]
+keywords = ["geoparquet", "maps", "geoarrow", "pyarrow", "geopandas", "sweden", "choropleth"]
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3 :: Only",
