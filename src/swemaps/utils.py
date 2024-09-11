@@ -1,10 +1,9 @@
-import json
 from importlib import resources
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    import pyarrow  # type: ignore[import-untyped]
+    from arro3.core.types import ArrowStreamExportable
 
 
 def get_path(map_type: str) -> Path:
@@ -30,7 +29,7 @@ def get_path(map_type: str) -> Path:
 
         kommun_kod: string
         kommun: string
-        geometry: binary
+        geometry: extension<geoarrow.wkb<WkbType>>
         -- schema metadata --
         geo: '{"version":"1.1.0","primary_column":"geometry","columns":{"geometry' + 1631
 
@@ -38,9 +37,9 @@ def get_path(map_type: str) -> Path:
 
     >>> kommuner = kommuner.filter(pc.starts_with(pc.field("kommun_kod"), "20"))
 
-    To use with Plotly the included helper function can convert the PyArrow to GeoJSON.
+    To use with Plotly the included convenience function can help convert the PyArrow table to GeoJSON.
 
-    >>> geojson = swemaps.pyarrow_to_geojson(kommuner)
+    >>> geojson = swemaps.table_to_geojson(kommuner)
 
     And with a dataset containing some values and municipalities (used as keys) we can get a nice map.
 
@@ -68,63 +67,32 @@ def get_path(map_type: str) -> Path:
         return path
 
 
-def pyarrow_to_geojson(
-    table: "pyarrow.Table", geometry_column: str | None = None
-) -> dict:
+def table_to_geojson(table: "ArrowStreamExportable") -> dict:
     """
-    Converts a PyArrow table loaded from a GeoParquet to a GeoJSON structure.
-    This function will use the defined primary column or a specific geometry column.
-    All other columns will be treated as a property.
+    Convert an Arrow tabular object to GeoJSON format using `geoarrow.rust.io`.
+
+    This convenience function wraps `geoarrow.rust.io.write_geojson` to perform the conversion.
+    For details on supported object types, see:
+    https://geoarrow.org/geoarrow-rs/python/latest/api/io/functions/#geoarrow.rust.io.write_geojson
 
     Parameters
     ----------
-    table : Table
-        A PyArrow table containing GeoParquet data.
-    geometry_column : str | None, default None
-        Name of a specific column containing geometry.
+    table : ArrowStreamExportable
+        An Arrow tabular object containing geospatial data.
     """
+    import io
+    import json
+
     try:
-        import pyarrow  # type: ignore[import-untyped]
-        from geomet import wkb  # type: ignore[import-untyped]
+        from geoarrow.rust.io import write_geojson
+
     except ModuleNotFoundError as err:
-        err.add_note("PyArrow and GeoMet are required to use this function.")
+        err.add_note("geoarrow.rust.io is required to use this function.")
         raise
 
-    if not isinstance(table, pyarrow.Table):
-        raise TypeError("The table must be a PyArrow Table object.")
+    with io.BytesIO() as buffer:
+        write_geojson(table, buffer)
+        buffer.seek(0)
+        geojson = buffer.read().decode("utf-8")
 
-    try:
-        table_metadata: dict = json.loads(table.schema.metadata[b"geo"].decode())
-        version: str = table_metadata["version"]
-        if version != "1.1.0":
-            raise ValueError(
-                f"Invalid version: {version}. The GeoParquet specification must be version 1.1.0."
-            )
-
-        primary_column: str = table_metadata["primary_column"]
-        all_geometry_columns: list = list(table_metadata["columns"].keys())
-
-    except (json.JSONDecodeError, KeyError) as err:
-        err.add_note("Invalid metadata.")
-        raise
-
-    features = []
-
-    geometry_column = geometry_column or primary_column
-
-    for row in table.to_pylist():
-        properties: dict = {
-            k: v for k, v in row.items() if k not in all_geometry_columns
-        }
-        geometry: dict = wkb.loads(row.get(geometry_column, None))
-        feature = {
-            "type": "Feature",
-            "properties": properties,
-            "geometry": geometry,
-        }
-        features.append(feature)
-
-    return {
-        "type": "FeatureCollection",
-        "features": features,
-    }
+    return json.loads(geojson)

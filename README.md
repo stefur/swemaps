@@ -4,7 +4,7 @@ Maps of Sweden in [GeoParquet](https://github.com/opengeospatial/geoparquet) for
 
 The parquets have been created from files published by [Statistics Sweden](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/) and [The Swedish Agency for Economic and Regional Growth](https://tillvaxtverket.se/tillvaxtverket/statistikochanalys/statistikomregionalutveckling/regionalaindelningar/faregioner.1799.html). Maps include counties, municipalities and FA regions. The original geometries have been transformed from SWEREF 99 TM to WGS 84 for better out of the box compatibility with different tools. The column names have also been somewhat sanitized (e.g. `KnKod` -> `kommun_kod`).
 
-The package gets you the file path so that you can load it with your prefered tool, for example PyArrow or GeoPandas. An extra helper function is included to quickly convert a PyArrow table to GeoJSON.
+The package gets you the file path so that you can load it with your prefered tool, for example PyArrow or GeoPandas. An extra convenience function is included to quickly convert a Table object (such as PyArrow) to GeoJSON.
 
 Made for Python with inspiration from [swemaps2](https://github.com/filipwastberg/swemaps2).   
 
@@ -27,8 +27,8 @@ Municipalities             |  Counties
 >>> kommuner.column_names
 ['kommun_kod', 'kommun', 'geometry']
 
-# This helper function returns GeoJSON from a PyArrow table
->>> geojson = swemaps.pyarrow_to_geojson(kommuner)
+# This convenience function returns GeoJSON from a PyArrow table object
+>>> geojson = swemaps.table_to_geojson(kommuner)
 
 # Here's a dataframe with municipalities and some random values that we can plot
 >>> df.head()
@@ -59,7 +59,7 @@ shape: (5, 2)
 
 ```
 
-You could also subset the map of municipalities for a specific county or a group of counties. Since the geometry is loaded as a PyArrow table the filter operation is straightforward.
+You might want to subset the map of municipalities for a specific county or a group of counties. Since the geometry is loaded as a PyArrow table the filter operation is straightforward.
 
 ```python
 >>> import pyarrow.compute as pc
@@ -68,14 +68,14 @@ You could also subset the map of municipalities for a specific county or a group
 
 kommun_kod: string
 kommun: string
-geometry: binary
+geometry: extension<geoarrow.wkb<WkbType>>
 -- schema metadata --
 geo: '{"version":"1.1.0","primary_column":"geometry","columns":{"geometry' + 1631
 
 # County code for Skåne is 12
 >>> kommuner = kommuner.filter(pc.starts_with(pc.field("kommun_kod"), "12"))
 
->>> geojson = swemaps.pyarrow_to_geojson(kommuner)
+>>> geojson = swemaps.table_to_geojson(kommuner)
 ```
 
 You could also use list comprehension on the GeoJSON to filter it.
@@ -110,7 +110,7 @@ fig.show()
 
 ## GeoPandas example
 
-You can load the GeoParquet into a GeoDataFrame as well.
+Another possibility is to load the GeoParquet into a GeoDataFrame.
 
 ```python
 >>> import geopandas as gpd

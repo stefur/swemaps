@@ -26,13 +26,13 @@ def test_geopandas():
 
 
 def test_pyarrow():
-    """All of the map types should be able to load in PyArrow"""
+    """All of the map types should be able to be loaded as PyArrow Tables and be converted to GeoJSON"""
     for map_type in MAP_TYPES:
         shape = MAP_TYPES[map_type]["shape"]
         tbl = pq.read_table(swemaps.get_path(map_type))
         assert isinstance(tbl, Table)
         assert tbl.shape == shape
-        geojson = swemaps.pyarrow_to_geojson(tbl)
+        geojson = swemaps.table_to_geojson(tbl)
         features_length = len(geojson["features"])
         unpacked_properties = [
             list(prop["properties"].keys()) for prop in geojson["features"]
