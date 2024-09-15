@@ -16,7 +16,7 @@ authors = [
 ]
 
 readme = "README.md"
-requires-python = ">= 3.11"
+requires-python = ">= 3.9"
 
 [project.urls]
 Repository = "https://github.com/stefur/swemaps"
@@ -29,7 +29,6 @@ ci = [
     "pytest>=8.2.0",
     "pyarrow>=16.0.0",
     "geopandas>=0.14.4",
-    "geoarrow-rust-io>=0.3.0",
 ]
 
 [build-system]

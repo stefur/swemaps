@@ -86,9 +86,10 @@ def table_to_geojson(table: "ArrowStreamExportable") -> dict:
     try:
         from geoarrow.rust.io import write_geojson
 
-    except ModuleNotFoundError as err:
-        err.add_note("geoarrow.rust.io is required to use this function.")
-        raise
+    except ModuleNotFoundError:
+        raise ModuleNotFoundError(
+            "geoarrow.rust.io is required to use this function."
+        ) from None
 
     with io.BytesIO() as buffer:
         write_geojson(table, buffer)
