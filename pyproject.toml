@@ -1,6 +1,6 @@
 [project]
 name = "swemaps"
-version = "0.1.4"
+version = "0.1.5"
 description = "Maps of Sweden in GeoParquet for easy usage."
 license = "MIT"
 repository = "https://github.com/stefur/swemaps/"
