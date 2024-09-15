@@ -954,11 +954,6 @@ version = "0.1.4"
 source = { editable = "." }
 
 [package.optional-dependencies]
-ci = [
-    { name = "geopandas" },
-    { name = "pyarrow" },
-    { name = "pytest" },
-]
 geojson = [
     { name = "geoarrow-rust-io" },
 ]
@@ -973,12 +968,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "geoarrow-rust-io", marker = "extra == 'geojson'", specifier = ">=0.3.0" },
-    { name = "geopandas", marker = "extra == 'ci'", specifier = ">=0.14.4" },
-    { name = "pyarrow", marker = "extra == 'ci'", specifier = ">=16.0.0" },
-    { name = "pytest", marker = "extra == 'ci'", specifier = ">=8.2.0" },
-]
+requires-dist = [{ name = "geoarrow-rust-io", marker = "extra == 'geojson'", specifier = ">=0.3.0" }]
 
 [package.metadata.requires-dev]
 dev = [

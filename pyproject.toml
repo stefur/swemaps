@@ -27,11 +27,6 @@ Repository = "https://github.com/stefur/swemaps"
 geojson = [
     "geoarrow-rust-io>=0.3.0",
 ]
-ci = [
-    "pytest>=8.2.0",
-    "pyarrow>=16.0.0",
-    "geopandas>=0.14.4",
-]
 
 [build-system]
 requires = ["hatchling"]
