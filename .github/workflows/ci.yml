@@ -32,10 +32,10 @@ jobs:
         cache-dependency-glob: "uv.lock"
 
     - name: Set up Python ${{ matrix.python-version }}
-        run: uv python install ${{ matrix.python-version }}
+      run: uv python install ${{ matrix.python-version }}
     
     - name: Install the project
-        run: uv sync --all-extras --dev
+      run: uv sync --all-extras --dev
 
     - name: Run tests & build
       run: |
