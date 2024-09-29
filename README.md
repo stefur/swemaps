@@ -111,7 +111,7 @@ skane.show()
 
 ![skåne](assets/ex3.png)
 
-## GeoPandas
+### GeoPandas and plotnine
 
 Another possibility is to load the GeoParquet into a GeoDataFrame.
 
