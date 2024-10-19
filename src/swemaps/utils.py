@@ -1,18 +1,18 @@
 from importlib import resources
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 if TYPE_CHECKING:
     from arro3.core.types import ArrowStreamExportable
 
 
-def get_path(map_type: str) -> Path:
+def get_path(map_type: Literal["kommun", "lan", "fa"]) -> Path:
     """
     Get the path for a specific map.
 
     Parameters
     ----------
-    map_type : str
+    map_type : Literal
         A string defining which map type to get.
         Possible values are "kommun", "lan", "fa".
 

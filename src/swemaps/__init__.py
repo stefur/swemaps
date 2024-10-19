@@ -1,3 +1,3 @@
-"""Namespace flattening"""
+from .utils import get_path, table_to_geojson
 
-from swemaps.utils import *  # noqa
+__all__ = ["get_path", "table_to_geojson"]
