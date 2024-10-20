@@ -1,6 +1,9 @@
 """Simple test for the GeoParquet files"""
 
+import json
+
 import geopandas as gpd  # type: ignore[import-untyped]
+import pyarrow.compute as pc  # type: ignore[import-untyped]
 import pyarrow.parquet as pq  # type: ignore[import-untyped]
 from geopandas import GeoDataFrame
 from pyarrow import Table
@@ -44,3 +47,15 @@ def test_pyarrow():
 
         # +1 for geometries
         assert (features_length, properties_length + 1) == shape
+
+
+def test_geojson():
+    """GeoJSON output should match expected"""
+    tbl = pq.read_table(swemaps.get_path("lan")).filter(pc.field("lan_kod") == "01")
+
+    geojson = swemaps.table_to_geojson(tbl)
+
+    with open("tests/sthlm.geojson", mode="r", encoding="utf-8") as file:
+        expected = json.load(file)
+
+    assert geojson == expected
