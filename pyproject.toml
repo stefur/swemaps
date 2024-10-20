@@ -38,6 +38,9 @@ build-backend = "hatchling.build"
 [tool.hatch.version]
 source = "versioningit"
 
+[tool.hatch.build]
+artifacts = ["src/swemaps/_version.py"]
+
 [tool.versioningit.write]
 file = "src/swemaps/_version.py"
 
