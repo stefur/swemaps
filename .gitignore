@@ -3,3 +3,6 @@
 .pytest_cache
 __pycache__
 dist
+
+# Generated version files
+_version.py
