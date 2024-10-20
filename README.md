@@ -176,5 +176,5 @@ Larger datasets including geometries for electoral districts, RegSO, and DeSO ca
 ```python
 >>> districts = swemaps.fetch_map("valdistrikt_2022")
 >>> districts
-PosixPath('/home/stefur/.cache/swemaps-data/v0.2.0/regso.parquet')
+PosixPath('/home/stefur/.cache/swemaps-data/v0.2.0/valdistrikt_2022.parquet')
 ```
