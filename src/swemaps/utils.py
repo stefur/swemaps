@@ -2,6 +2,10 @@ from importlib import resources
 from pathlib import Path
 from typing import TYPE_CHECKING, Literal
 
+from pooch import Pooch  # type: ignore[import-untyped]
+
+from ._fetcher import _map_fetcher
+
 if TYPE_CHECKING:
     from arro3.core.types import ArrowStreamExportable
 
@@ -12,11 +16,14 @@ def get_path(map_type: Literal["kommun", "lan", "fa"]) -> Path:
 
     Parameters
     ----------
-    map_type : Literal
-        A string defining which map type to get.
-        Possible values are "kommun", "lan", "fa".
+    map_type
+        Which map type to get.
 
-    Example
+    Returns
+    -------
+    Path
+
+    Examples
     --------
     Loading municipality map data from Dalarna county and plotting some random values with PyArrow:
 
@@ -56,7 +63,7 @@ def get_path(map_type: Literal["kommun", "lan", "fa"]) -> Path:
     basemap_visible=False,
     )
     """
-    if map_type not in ("kommun", "lan", "fa"):
+    if map_type not in {"kommun", "lan", "fa"}:
         raise ValueError(
             f"Invalid map type: {map_type}. Expected one of 'kommun', 'lan', 'fa'."
         )
@@ -97,3 +104,33 @@ def table_to_geojson(table: "ArrowStreamExportable") -> dict:
         geojson = buffer.read().decode("utf-8")
 
     return json.loads(geojson)
+
+
+def fetch_map(
+    name: Literal["valdistrikt_2022", "regso", "deso"],
+    _map_fetcher: Pooch = _map_fetcher,
+) -> Path:
+    """
+    Download a larger GeoParquet and get its cache path.
+
+    Parameters
+    ----------
+    name
+        The map data to get.
+
+    Returns
+    -------
+    Path
+
+    Examples
+    --------
+    >>> valdistrikt = swemaps.fetch_map("valdistrikt_2022")
+    >>> valdistrikt
+    PosixPath('/home/stefur/.cache/swemaps-data/valdistrikt_2022.parquet')
+
+    """
+    if name not in {"valdistrikt_2022", "regso", "deso"}:
+        raise ValueError(f"No map data called '{name}'.")
+
+    path = _map_fetcher.fetch(f"{name}.parquet")
+    return Path(path)

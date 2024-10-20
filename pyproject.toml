@@ -1,6 +1,6 @@
 [project]
 name = "swemaps"
-version = "0.1.5"
+dynamic = ["version"]
 description = "Maps of Sweden in GeoParquet for easy usage."
 license = "MIT"
 repository = "https://github.com/stefur/swemaps/"
@@ -19,6 +19,9 @@ authors = [
 
 readme = "README.md"
 requires-python = ">= 3.9"
+dependencies = [
+    "pooch>=1.8.2",
+]
 
 [project.urls]
 Repository = "https://github.com/stefur/swemaps"
@@ -29,14 +32,19 @@ geojson = [
 ]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "versioningit"]
 build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "versioningit"
+
+[tool.versioningit.write]
+file = "src/swemaps/_version.py"
 
 [tool.uv]
 dev-dependencies = [
     "pytest>=8.2.0",
     "pyarrow>=16.0.0",
     "geopandas>=0.14.4",
-    "ipykernel>=6.29.4",
     "geoarrow-rust-io>=0.3.0",
 ]

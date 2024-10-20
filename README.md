@@ -2,7 +2,12 @@
 
 Maps of Sweden in [GeoParquet](https://github.com/opengeospatial/geoparquet) for easy usage.  
 
-The parquets have been created from files published by [Statistics Sweden](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/) and [The Swedish Agency for Economic and Regional Growth](https://tillvaxtverket.se/tillvaxtverket/statistikochanalys/statistikomregionalutveckling/regionalaindelningar/faregioner.1799.html). The map data includes counties, municipalities and FA regions. The original geometries have been transformed from SWEREF 99 TM (EPSG:3006) to WGS 84 (EPSG:4326) for better out-of-the-box compatibility with interactive and web-based toolkits such as Folium and Plotly. The column names have also been somewhat sanitized (e.g. `KnKod` -> `kommun_kod`).
+The parquets have been created from files published by:
+- [Statistics Sweden](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/) 
+- [The Swedish Agency for Economic and Regional Growth](https://tillvaxtverket.se/tillvaxtverket/statistikochanalys/statistikomregionalutveckling/regionalaindelningar/faregioner.1799.html)
+- [Swedish Election Authority](https://www.val.se/valresultat/riksdag-region-och-kommun/2022/radata-och-statistik.html)
+
+ The map data includes counties, municipalities, electoral districts and FA regions. The original geometries have been transformed from SWEREF 99 TM (EPSG:3006) to WGS 84 (EPSG:4326) for better out-of-the-box compatibility with interactive and web-based toolkits such as Folium and Plotly. The column names have also been somewhat sanitized (e.g. `KnKod` -> `kommun_kod`).
 
 The package gets you the file path so that you can load it with your prefered tool, for example PyArrow or GeoPandas. An extra convenience function is included to quickly convert a PyArrow Table object to GeoJSON.
 
@@ -118,16 +123,16 @@ Another possibility is to load the GeoParquet into a GeoDataFrame.
 ```python
 >>> import geopandas as gpd
 
->>> gdf = gpd.GeoDataFrame.read_parquet(swemaps.get_path("lan"))
+>>> gdf = gpd.read_parquet(swemaps.get_path("lan"))
 
 >>> gdf.head()
 
-lan_kod            lan                                           geometry
-0      01     Stockholms  MULTIPOLYGON (((17.24034 59.24219, 17.28475 59...
-1      03        Uppsala  MULTIPOLYGON (((17.36606 59.61224, 17.35475 59...
-2      04  Södermanlands  MULTIPOLYGON (((15.95815 58.96497, 15.8613 58....
-3      05  Östergötlands  MULTIPOLYGON (((14.93369 58.13112, 14.89472 58...
-4      06     Jönköpings  MULTIPOLYGON (((14.98311 57.9345, 15.00458 57....
+  lan_kod                lan                                           geometry
+0      01     Stockholms län  MULTIPOLYGON (((17.24034 59.24219, 17.28475 59...
+1      03        Uppsala län  MULTIPOLYGON (((17.36606 59.61224, 17.35475 59...
+2      04  Södermanlands län  MULTIPOLYGON (((15.95815 58.96497, 15.8613 58....
+3      05  Östergötlands län  MULTIPOLYGON (((14.93369 58.13112, 14.89472 58...
+4      06     Jönköpings län  MULTIPOLYGON (((14.98311 57.9345, 15.00458 57....
 
 # And with matplotlib installed as well we can have quick look
 >>> gdf.plot()
@@ -135,7 +140,7 @@ lan_kod            lan                                           geometry
 
 ![län](assets/ex4.png)
 
-For best results with `plotnine` you can either reproject to SWEREF 99 TM or set the aspect ratio in `coord_fixed()`. A ratio of 1.96 should be near optimal.
+For best results with `plotnine` you can either reproject to SWEREF 99 TM or set the aspect ratio in `coord_fixed()`. A ratio of around 1.96 to 1.98 should be near optimal.
 
 ```python
 >>> gdf = gpd.read_parquet(swemaps.get_path("kommun"))
@@ -149,7 +154,7 @@ For best results with `plotnine` you can either reproject to SWEREF 99 TM or set
 >>> (
     ggplot(gdf, aes(fill="value"))
     + geom_map(show_legend=False)
-    + coord_fixed() # Or skip the reprojection above and use ratio=1.96 here
+    + coord_fixed() # Or skip the reprojection above and set ratio manually here
     + scale_fill_cmap("YlGnBu")
     + theme(
         axis_ticks=element_blank(),
@@ -163,3 +168,13 @@ For best results with `plotnine` you can either reproject to SWEREF 99 TM or set
 SWEREF 99 TM             |  WGS 84
 :-------------------------:|:-------------------------:
 ![sweref99tm](assets/ex5.png) | ![wgs84](assets/ex6.png)
+
+
+## Additional map data
+Larger datasets including geometries for electoral districts, RegSO, and DeSO can be manually fetched. Once downloaded the files are cached for efficient reuse.
+
+```python
+>>> districts = swemaps.fetch_map("valdistrikt_2022")
+>>> districts
+PosixPath('/home/stefur/.cache/swemaps-data/v0.2.0/regso.parquet')
+```
