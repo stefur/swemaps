@@ -11,7 +11,7 @@ from pyarrow import Table
 import swemaps
 
 # Map types along with expected shapes
-MAP_TYPES = {
+MAP_TYPES: dict[swemaps.utils.BuiltinMap, dict] = {
     "lan": {"shape": (21, 3)},
     "kommun": {"shape": (290, 3)},
     "fa": {"shape": (60, 6)},

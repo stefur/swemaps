@@ -2,14 +2,14 @@ name: ci
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     name: ${{ matrix.os }} python-${{ matrix.python-version }}
-    
+
     strategy:
       matrix:
         os:
@@ -22,24 +22,24 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@v2
-      with:
-        version: "0.4.10"
-        enable-cache: true
-        cache-dependency-glob: "uv.lock"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "0.5.4"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
 
-    - name: Set up Python ${{ matrix.python-version }}
-      run: uv python install ${{ matrix.python-version }}
-    
-    - name: Install the project
-      run: uv sync --all-extras --dev
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
 
-    - name: Run tests & build
-      run: |
-        uv run pytest tests
-        uv build
+      - name: Install the project
+        run: uv sync --all-extras --dev
+
+      - name: Run tests & build
+        run: |
+          uv run pytest tests
+          uv build

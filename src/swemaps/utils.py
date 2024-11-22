@@ -9,8 +9,11 @@ from ._fetcher import _map_fetcher
 if TYPE_CHECKING:
     from arro3.core.types import ArrowStreamExportable
 
+BuiltinMap = Literal["lan", "kommun", "fa"]
+ExtraMap = Literal["valdistrikt_2022", "regso", "deso"]
 
-def get_path(map_type: Literal["kommun", "lan", "fa"]) -> Path:
+
+def get_path(map_type: BuiltinMap) -> Path:
     """
     Get the path for a specific map.
 
@@ -63,6 +66,8 @@ def get_path(map_type: Literal["kommun", "lan", "fa"]) -> Path:
     basemap_visible=False,
     )
     """
+    assert __package__ is not None, "Ensure the package is installed properly."
+
     if map_type not in {"kommun", "lan", "fa"}:
         raise ValueError(
             f"Invalid map type: {map_type}. Expected one of 'kommun', 'lan', 'fa'."
@@ -107,7 +112,7 @@ def table_to_geojson(table: "ArrowStreamExportable") -> dict:
 
 
 def fetch_map(
-    name: Literal["valdistrikt_2022", "regso", "deso"],
+    name: ExtraMap,
     _map_fetcher: Pooch = _map_fetcher,
 ) -> Path:
     """

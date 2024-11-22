@@ -44,10 +44,10 @@ artifacts = ["src/swemaps/_version.py"]
 [tool.versioningit.write]
 file = "src/swemaps/_version.py"
 
-[tool.uv]
-dev-dependencies = [
-    "pytest>=8.2.0",
-    "pyarrow>=16.0.0",
-    "geopandas>=0.14.4",
+[dependency-groups]
+dev = [
     "geoarrow-rust-io>=0.3.0",
+    "geopandas>=1.0.1",
+    "pyarrow>=17.0.0",
+    "pytest>=8.3.3",
 ]
