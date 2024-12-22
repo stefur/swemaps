@@ -615,7 +615,7 @@ wheels = [
 
 [[package]]
 name = "swemaps"
-version = "0.2.1+d20241121"
+version = "0.2.1.post1+g3513500.d20241220"
 source = { editable = "." }
 dependencies = [
     { name = "pooch" },
@@ -632,6 +632,7 @@ dev = [
     { name = "geopandas" },
     { name = "pyarrow" },
     { name = "pytest" },
+    { name = "syrupy" },
 ]
 
 [package.metadata]
@@ -646,6 +647,19 @@ dev = [
     { name = "geopandas", specifier = ">=1.0.1" },
     { name = "pyarrow", specifier = ">=17.0.0" },
     { name = "pytest", specifier = ">=8.3.3" },
+    { name = "syrupy", specifier = ">=4.8.0" },
+]
+
+[[package]]
+name = "syrupy"
+version = "4.8.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/57/54/07f40c1e9355c0eb6909b83abd8ea2c523a1e05b8257a575bbaa42df28de/syrupy-4.8.0.tar.gz", hash = "sha256:648f0e9303aaa8387c8365d7314784c09a6bab0a407455c6a01d6a4f5c6a8ede", size = 49526 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ed/c7/8cd6b5fa8cc4a5c025d3d36a014dff44436fda8b3003a471253931c77f1b/syrupy-4.8.0-py3-none-any.whl", hash = "sha256:544f4ec6306f4b1c460fdab48fd60b2c7fe54a6c0a8243aeea15f9ad9c638c3f", size = 49530 },
 ]
 
 [[package]]

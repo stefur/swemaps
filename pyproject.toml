@@ -12,6 +12,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 authors = [
     { name = "Stefan Furne", email = "stefan@furne.net" }
@@ -50,4 +51,5 @@ dev = [
     "geopandas>=1.0.1",
     "pyarrow>=17.0.0",
     "pytest>=8.3.3",
+    "syrupy>=4.8.0",
 ]
