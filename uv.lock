@@ -634,7 +634,7 @@ wheels = [
 
 [[package]]
 name = "swemaps"
-version = "0.2.1.post2+g2289743.d20241222"
+version = "0.2.1.post3+gaa8ed90.d20241222"
 source = { editable = "." }
 dependencies = [
     { name = "pooch" },
