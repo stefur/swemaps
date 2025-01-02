@@ -1,8 +1,7 @@
-import pooch  # type: ignore[import-untyped]
+import pooch
 
 from ._version import __version__
 
-# Example usage
 registry = {
     "valdistrikt_2022.parquet": "32a37e434b7ddc571f5722f16b8237d5420a32a7f97d59fbd77969489245e59b",
     "deso.parquet": "138fb4e4ad1fadcf7cf688b59c5e019b0e5b802cc40df3e78d4b1fedf29a831f",

@@ -1,8 +1,8 @@
 from importlib import resources
 from pathlib import Path
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal, get_args
 
-from pooch import Pooch  # type: ignore[import-untyped]
+from pooch import Pooch
 
 from ._fetcher import _map_fetcher
 
@@ -11,6 +11,10 @@ if TYPE_CHECKING:
 
 BuiltinMap = Literal["lan", "kommun", "fa"]
 ExtraMap = Literal["valdistrikt_2022", "regso", "deso"]
+
+
+class MapNotFound(Exception):
+    """A requested map type is not found."""
 
 
 def get_path(map_type: BuiltinMap) -> Path:
@@ -66,11 +70,10 @@ def get_path(map_type: BuiltinMap) -> Path:
     basemap_visible=False,
     )
     """
-    assert __package__ is not None, "Ensure the package is installed properly."
-
-    if map_type not in {"kommun", "lan", "fa"}:
-        raise ValueError(
-            f"Invalid map type: {map_type}. Expected one of 'kommun', 'lan', 'fa'."
+    if map_type not in (valid_builtins := get_args(BuiltinMap)):
+        valid_builtins_str = "\n- ".join(valid_builtins)
+        raise MapNotFound(
+            f"Invalid map type: '{map_type}'.\nExpected one of the following string literals:\n- {valid_builtins_str}"
         )
 
     with resources.as_file(
@@ -134,8 +137,11 @@ def fetch_map(
     PosixPath('/home/stefur/.cache/swemaps-data/valdistrikt_2022.parquet')
 
     """
-    if name not in {"valdistrikt_2022", "regso", "deso"}:
-        raise ValueError(f"No map data called '{name}'.")
+    if name not in (valid_extras := get_args(ExtraMap)):
+        valid_extras_str = "\n- ".join(valid_extras)
+        raise MapNotFound(
+            f"No map data called '{name}'.\nExpected one of the following string literals:\n- {valid_extras_str}"
+        )
 
     path = _map_fetcher.fetch(f"{name}.parquet")
     return Path(path)
