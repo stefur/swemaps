@@ -29,7 +29,7 @@ Repository = "https://github.com/stefur/swemaps"
 
 [project.optional-dependencies]
 geojson = [
-    "geoarrow-rust-io>=0.3.0",
+    "geoarrow-rust-io>=0.3.0,<0.4.0",
 ]
 
 [build-system]
@@ -47,7 +47,7 @@ file = "src/swemaps/_version.py"
 
 [dependency-groups]
 dev = [
-    "geoarrow-rust-io>=0.3.0",
+    "geoarrow-rust-io>=0.3.0,<0.4.0",
     "geopandas>=1.0.1",
     "pyarrow>=17.0.0",
     "pytest>=8.3.3",

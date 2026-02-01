@@ -1,4 +1,5 @@
 version = 1
+revision = 3
 requires-python = ">=3.9"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -766,13 +767,14 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "geoarrow-rust-io", marker = "extra == 'geojson'", specifier = ">=0.3.0" },
+    { name = "geoarrow-rust-io", marker = "extra == 'geojson'", specifier = ">=0.3.0,<0.4.0" },
     { name = "pooch", specifier = ">=1.8.2" },
 ]
+provides-extras = ["geojson"]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "geoarrow-rust-io", specifier = ">=0.3.0" },
+    { name = "geoarrow-rust-io", specifier = ">=0.3.0,<0.4.0" },
     { name = "geopandas", specifier = ">=1.0.1" },
     { name = "pyarrow", specifier = ">=17.0.0" },
     { name = "pytest", specifier = ">=8.3.3" },
