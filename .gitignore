@@ -3,6 +3,7 @@
 .pytest_cache
 __pycache__
 dist
+.nox
 
 # Generated version files
 _version.py
