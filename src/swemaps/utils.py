@@ -84,7 +84,7 @@ def get_path(map_type: BuiltinMap) -> Path:
 
 def table_to_geojson(table: "ArrowStreamExportable") -> dict:
     """
-    Convert an Arrow tabular object to GeoJSON format using `geoarrow.rust.io`.
+    Convert an Arrow tabular object to GeoJSON format using `geoarrow-rust-io`.
 
     This convenience function wraps `geoarrow.rust.io.write_geojson` to perform the conversion.
     For details on supported object types, see:
@@ -103,7 +103,7 @@ def table_to_geojson(table: "ArrowStreamExportable") -> dict:
 
     except ModuleNotFoundError:
         raise ModuleNotFoundError(
-            "geoarrow.rust.io is required to use this function."
+            "geoarrow-rust-io is required to use this function."
         ) from None
 
     with io.BytesIO() as buffer:
