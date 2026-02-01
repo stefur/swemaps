@@ -8,20 +8,20 @@ keywords = ["geoparquet", "maps", "geoarrow", "pyarrow", "geopandas", "sweden", 
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3 :: Only",   
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 authors = [
     { name = "Stefan Furne", email = "stefan@furne.net" }
 ]
 
 readme = "README.md"
-requires-python = ">= 3.9"
+requires-python = ">= 3.10"
 dependencies = [
-    "pooch>=1.8.2",
+    "pooch>=1.9.0",
 ]
 
 [project.urls]
